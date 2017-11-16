@@ -1,0 +1,3 @@
+[submodule "MyFirstApp"]
+	path = MyFirstApp
+	url = https://github.com/basoimauryne/MyFirstApp.git
