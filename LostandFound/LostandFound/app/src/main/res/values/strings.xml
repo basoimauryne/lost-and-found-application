@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">Lost and Found</string>
     <string name="action_sign_in_short">Register</string>
-    <string name="spinner_title">category</string>
     <string name="email">Email</string>
-    <string name="productname">Item Name</string>
-    <string name="Addtitle">Create Post:</string>
-    <string name="productdesc">Item Description</string>
     <string name="minimum_password">Password too short, enter minimum 8 characters!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
     <string name="change_email">Change Email</string>
@@ -16,8 +12,6 @@
     <string name="title_activity_profile">Lost and found</string>
     <string name="title_activity_login">Sign in</string>
     <string name="hint_email">Email</string>
-    <string name="hint_productname">Item Name</string>
-    <string name="hint_productdesc">Enter a brief item description</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Fullname</string>
     <string name="btn_login">LOGIN</string>
@@ -25,8 +19,6 @@
     <string name="btn_link_to_login">Already registered. Login! </string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="btn_forgot_password">Forgot your password?</string>
-    <string name="btn_upload">Post</string>
-    <string name="btn_post">Post</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back"><![CDATA[<< Back]]></string>
     <string name="hint_new_email">New Email</string>

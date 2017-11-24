@@ -1,0 +1,6 @@
+[submodule "MyFirstApp"]
+	path = MyFirstApp
+	url = https://github.com/basoimauryne/MyFirstApp.git
+[submodule "friendlychat"]
+	path = friendlychat
+	url = https://github.com/basoimauryne/friendlychat.git
