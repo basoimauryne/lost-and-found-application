@@ -26,6 +26,7 @@ public class settingsActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,3 +267,7 @@ public class settingsActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+

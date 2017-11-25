@@ -1,5 +1,6 @@
 package info.lostandfound.firebase;
 
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import android.app.Activity;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,8 +57,6 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnClic
     private Uri filePath;
     private StorageReference storageReference;
     private DatabaseReference mDatabase;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,3 +199,4 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnClic
         }
     }
 }
+

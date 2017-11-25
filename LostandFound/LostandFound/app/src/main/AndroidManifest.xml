@@ -20,7 +20,13 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".settingsActivity" />
+        <activity android:name=".AddActivity" />
+        <activity android:name=".Constants" />
+        <activity android:name=".UploadActivity">
+
+        </activity>
     </application>
 
 </manifest>
