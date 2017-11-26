@@ -1,12 +1,10 @@
 package info.lostandfound.firebase;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
-/**
- * Created by Belal on 2/23/2017.
- */
-@IgnoreExtraProperties
-public class UploadActivity{
+public class UploadActivity extends AppCompatActivity {
 
     public String name;
     public String url;

@@ -42,7 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 
-public class AddActivity extends AppCompatActivity implements AdapterView.OnClickListener,OnItemSelectedListener {
+public class AddActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     //constant to track image chooser intent
     private static final int PICK_IMAGE_REQUEST = 234;
