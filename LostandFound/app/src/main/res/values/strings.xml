@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Lost and Found</string>
+    <string name="Name">Full Name</string>
     <string name="action_sign_in_short">Register</string>
     <string name="spinner_title">category</string>
     <string name="email">Email</string>

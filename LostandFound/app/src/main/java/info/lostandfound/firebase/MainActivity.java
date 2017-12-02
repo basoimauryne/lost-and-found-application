@@ -1,36 +1,61 @@
 package info.lostandfound.firebase;
 
-import android.*;
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
 
     private FirebaseAuth.AuthStateListener authListener;
+    private Button signOut;
     private FirebaseAuth auth;
     private FloatingActionButton fab;
     private static final String TAG = "MainActivity";
+    //recyclerview object
+    private RecyclerView recyclerView;
+
+    //adapter object
+    private RecyclerView.Adapter adapter;
+
+    //database reference
+    private DatabaseReference mDatabase;
+
+    //progress dialog
+    private ProgressDialog progressDialog;
+
+    //list to hold all the uploaded images
+    private List<Upload> uploads;
+
+
+
 
 
     @Override
@@ -38,12 +63,68 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("POSTS");
         setSupportActionBar(toolbar);
 
+        isStoragePermissionGranted();
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new dividerdeco(this));
+
+
+        progressDialog = new ProgressDialog(this);
+
+        uploads = new ArrayList<>();
+
+
+
+
+
+
+
+        showProgressDialog();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
+
+        //adding an event listener to fetch values
+        mDatabase.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot snapshot) {
+                                                //dismissing the progress dialog
+
+
+                                                dismissProgressDialog();
+
+                                                //iterating through all the values in database
+                                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                                    Upload upload = postSnapshot.getValue(Upload.class);
+                                                    uploads.add(upload);
+                                                }
+                                                //creating adapter
+                                                adapter = new RecyclerAdapter(getApplicationContext(), uploads);
+
+                                                //adding adapter to recyclerview
+                                                recyclerView.setAdapter(adapter);
+                                            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
+
+        });
+
+
+
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
+
+
+
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -62,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         };
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,12 +156,39 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onClick(View view) {
                         // Click action
+                        //Get the bundle
+
                         Intent intent = new Intent(MainActivity.this, AddActivity.class);
                         startActivity(intent);
                     }
                 });
             }
         });
+
+
+    }
+    //displaying progress dialog while fetching images
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading. Please wait...");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+
+
+    //sign out method
+    public void signOut() {
+        auth.signOut();
     }
 
     public boolean isStoragePermissionGranted() {
@@ -107,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
@@ -114,6 +226,34 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             Log.v(TAG, "permission: "+permissions[0]+ "was"+grantResults[0]);
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        //Inflate the menu; this adds items to the action bar if it is present
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        else if (id == R.id.sign_out){
+
+            signOut();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {dismissProgressDialog();
+        super.onDestroy();
     }
 
 

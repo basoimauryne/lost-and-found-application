@@ -27,9 +27,11 @@
         <activity android:name=".settingsActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".Constants" />
-        <activity android:name=".UploadActivity">
-
-        </activity>
+        <activity android:name=".Upload" />
+        <activity android:name=".Database" />
+        <activity android:name=".postlistadapter" />
+        <activity android:name=".RecyclerAdapter" />
+        <activity android:name=".dividerdeco"></activity>
     </application>
 
 </manifest>
