@@ -1,10 +1,12 @@
 package info.lostandfound.firebase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,8 +16,11 @@ import com.bumptech.glide.Glide;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+
+
     private Context context;
     private List<Upload> uploads;
+    public String name,email;
 
     public RecyclerAdapter(Context context, List<Upload> uploads) {
         this.uploads = uploads;
@@ -33,14 +38,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Upload upload = uploads.get(position);
+        name=upload.getName();
+        email=upload.getEmail();
 
         holder.postusername.setText(upload.getName());
         holder.postproductname.setText(upload.getProductname());
         holder.postproductdesc.setText(upload.getProductdesc());
         holder.postCategory.setText(upload.getTag());
+        holder.btn_claim.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+
+                                                    Intent intent = new Intent(context, ClaimActivity.class);
+                                                    intent.putExtra("name",name);
+                                                    intent.putExtra("email",email);
+                                                    view.getContext().startActivity(intent);
+                                                }
+
+                                            });
 
         Glide.with(context).load(upload.getImage()).into(holder.postImageView);
     }
+
 
     @Override
     public int getItemCount() {
@@ -54,6 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public TextView postproductdesc;
         public TextView postCategory;
         public ImageView postImageView;
+        public Button btn_claim;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -63,6 +84,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             postproductdesc = (TextView) itemView.findViewById(R.id.postproductdesc);
             postCategory = (TextView) itemView.findViewById(R.id.postCategory);
             postImageView = (ImageView) itemView.findViewById(R.id.postImageView);
+            btn_claim=itemView.findViewById(R.id.btn_claim);
         }
     }
 }

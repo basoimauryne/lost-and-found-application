@@ -31,7 +31,8 @@
         <activity android:name=".Database" />
         <activity android:name=".postlistadapter" />
         <activity android:name=".RecyclerAdapter" />
-        <activity android:name=".dividerdeco"></activity>
+        <activity android:name=".dividerdeco" />
+        <activity android:name=".ClaimActivity"></activity>
     </application>
 
 </manifest>
