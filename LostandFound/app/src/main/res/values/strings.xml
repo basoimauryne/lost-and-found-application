@@ -19,6 +19,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="hint_email">Email</string>
     <string name="hint_productname">Item Name</string>
+    <string name="hint_search">Search</string>
     <string name="hint_productdesc">Enter a brief item description</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Fullname</string>
