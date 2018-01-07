@@ -3,6 +3,7 @@
     <string name="Name">Full Name</string>
     <string name="action_sign_in_short">Register</string>
     <string name="spinner_title">category</string>
+    <string name="spinner_title2">type</string>
     <string name="email">Email</string>
     <string name="productname">Item Name</string>
     <string name="Addtitle">Create Post:</string>
@@ -36,9 +37,34 @@
     <string name="hint_new_email">New Email</string>
     <string name="btn_change">Change</string>
     <string name="btn_send">Send</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
     <string name="btn_remove">Remove</string>
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_lost">Lost</string>
+    <string name="nav_item_found">Found</string>
+    <string name="nav_item_missing">Missing</string>
+    <string name="nav_item_wanted">Wanted</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_lost</item>
+        <item>@string/nav_item_found</item>
+        <item>@string/nav_item_missing</item>
+        <item>@string/nav_item_wanted</item>
+    </string-array>
+
+    <string name="title_lost">LOST</string>
+    <string name="title_found">FOUND</string>
+    <string name="title_missing">MISSING</string>
+    <string name="title_wanted">WANTED</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

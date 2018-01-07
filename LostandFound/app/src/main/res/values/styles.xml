@@ -10,4 +10,58 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="date_picker_theme" parent="@android:style/Widget.DatePicker">
+    </style>
+
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+
+    </style>
+
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="behindMenuItemLabel_electronics">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:drawableLeft">@drawable/electronics</item>
+        <item name="android:textColor">#d2d2d2</item>
+    </style>
+
+    <style name="behindMenuItemLabel_clothing">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:drawableLeft">@drawable/clothing</item>
+        <item name="android:textColor">#d2d2d2</item>
+    </style>
+
+    <style name="behindMenuItemLabel_other">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:drawableLeft">@drawable/other</item>
+        <item name="android:textColor">#d2d2d2</item>
+    </style>
+    <style name="behindMenuItemLabel_accessories">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:drawableLeft">@drawable/accessories</item>
+        <item name="android:textColor">#d2d2d2</item>
+    </style>
+
 </resources>

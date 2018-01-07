@@ -1,10 +1,12 @@
-package info.lostandfound.firebase;
+package info.lostandfound.firebase.Activity;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import info.lostandfound.firebase.R;
 
 public class dividerdeco extends RecyclerView.ItemDecoration {
     private Drawable mDivider;

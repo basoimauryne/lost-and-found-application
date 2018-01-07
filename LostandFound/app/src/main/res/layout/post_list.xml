@@ -12,67 +12,90 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/postusername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:textColor="@color/bg_login"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/postproductname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product Name"
-            android:textColor="@color/bg_login"
-            android:textSize="15dp"
-            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="250dp">
-
             <TextView
-                android:id="@+id/postCategory"
+                android:id="@+id/postusername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:textColor="@color/bg_login"
+                android:textSize="5pt"
+                android:textStyle="italic"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bg_register"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="Category"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10pt"/>
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"/>
 
+
+            <TextView
+                android:id="@+id/postproductname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timestamp"
+                android:layout_gravity="center_vertical"
+                android:text="Product Name"
+                android:textColor="@color/bg_login"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"/>
 
             <ImageView
                 android:id="@+id/postImageView"
                 android:layout_width="350dp"
                 android:layout_height="200dp"
-                android:layout_below="@+id/postCategory"
+                android:layout_below="@+id/postproductname"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1.91"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:layout_marginBottom="5dp"/>
+
+
+
         </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/postCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end"
+            android:layout_below="@+id/imageView"
+            android:text="Category"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/back"
+            android:textSize="7pt"
+            android:layout_marginBottom="5dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="20dp">
+
+
 
             <TextView
                 android:id="@+id/postproductdesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/imageView"
                 android:text="Product Description"
                 android:textColor="@color/bg_register"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textSize="15dp" />
 
 
         </RelativeLayout>
+
 
         <Button
             android:id="@+id/btn_claim"
@@ -80,11 +103,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:background="@color/colorAccent"
+            android:background="@drawable/claim"
             android:text="@string/btn_claim"
-            android:textAppearance="@style/TextAppearance.AppCompat">
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
         </Button>
+
+        <Button
+            android:id="@+id/btn_claimed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@drawable/claimed"
+            android:text="claimed"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:layout_marginBottom="5dp" />
 
     </LinearLayout>
 </LinearLayout>

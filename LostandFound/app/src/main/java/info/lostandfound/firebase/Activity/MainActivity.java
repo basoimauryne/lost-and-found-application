@@ -1,9 +1,8 @@
-package info.lostandfound.firebase;
+package info.lostandfound.firebase.Activity;
 
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,9 +11,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +25,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-
+import com.google.common.base.Predicates;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -35,17 +36,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
+import info.lostandfound.firebase.Adapter.RecyclerAdapter;
+import info.lostandfound.firebase.Model.Upload;
+import info.lostandfound.firebase.R;
+
+import static android.R.id.list;
+
+
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, FragmentDrawer.FragmentDrawerListener {
 
 
     private FirebaseAuth.AuthStateListener authListener;
@@ -70,13 +72,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private SearchView searchView;
 
-    private RecyclerAdapter mAdapter;
+    private RecyclerAdapter mAdapter,mAdapter2;
 
+    private FragmentDrawer drawerFragment;
 
-
-
-
-
+    private DrawerLayout mDrawerLayout, drawer;
 
 
     @Override
@@ -87,6 +87,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("POSTS");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+        drawerFragment = (FragmentDrawer)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+        drawerFragment.setDrawerListener(this);
+
 
         isStoragePermissionGranted();
 
@@ -98,10 +106,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         progressDialog = new ProgressDialog(this);
 
+
         uploads = new ArrayList<>();
-
-
-
 
 
 
@@ -112,39 +118,39 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         //adding an event listener to fetch values
         mDatabase.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot snapshot) {
-                                                //dismissing the progress dialog
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //dismissing the progress dialog
 
 
-                                                dismissProgressDialog();
+                dismissProgressDialog();
 
-                                                //iterating through all the values in database
-                                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                                    Upload upload = postSnapshot.getValue(Upload.class);
-                                                    uploads.add(upload);
-                                                }
-                                                //creating adapter
-                                                adapter = new RecyclerAdapter(getApplicationContext(), uploads);
+                //iterating through all the values in database
+                uploads.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Upload upload = postSnapshot.getValue(Upload.class);
+                    uploads.add(upload);
+                }
+                //creating adapter
+                Collections.reverse(uploads);
+                adapter = new RecyclerAdapter(getApplicationContext(), uploads);
 
-                                                //adding adapter to recyclerview
-                                                recyclerView.setAdapter(adapter);
-                                            }
+                //adding adapter to recyclerview
+                recyclerView.setAdapter(adapter);
+
+            }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
 
 
-
         });
-
 
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
-
-
 
 
         //get current user
@@ -184,10 +190,41 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     }
                 });
             }
+
+
         });
 
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
 
-    }
+
+            } else {
+                final String method = extras.getString("filterBooks_documents");
+
+                    mDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            mAdapter2 = new RecyclerAdapter(getApplicationContext(), uploads);
+                            recyclerView.setAdapter(mAdapter2);
+                            mAdapter2.getFilter2().filter(method);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+
+                    });
+
+
+
+            }
+        }}
+
+
     //displaying progress dialog while fetching images
     private void showProgressDialog() {
         if (progressDialog == null) {
@@ -204,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             progressDialog.dismiss();
         }
     }
-
 
 
     //sign out method
@@ -224,8 +260,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG, "Permission is granted");
                 return true;
-            }
-            else {
+            } else {
                 Log.v(TAG, "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,}, 1);
                 return false;
@@ -237,20 +272,17 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
 
-
-
-
     @Override
-    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-            Log.v(TAG, "permission: "+permissions[0]+ "was"+grantResults[0]);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.v(TAG, "permission: " + permissions[0] + "was" + grantResults[0]);
 
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         //Inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.main_menu, menu);
         // Associate searchable configuration with the SearchView
@@ -260,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         searchView.setSearchableInfo(searchManager
                 .getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
+
 
         // listening to search query text change
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -289,8 +322,36 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 return false;
             }
         });
-        return true;
+
+  return true;
+
+}
+
+    private List<Upload> filter(List<Upload> models, String query) {
+        query = query.toLowerCase();
+
+        final List<Upload> filteredModelList = new ArrayList<>();
+
+        for (Upload model : models) {
+            final String text = model.getType().toLowerCase().toString();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+
+            }
+        }
+        return filteredModelList;
     }
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -310,6 +371,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onDrawerItemSelected(View view, int position) {
+
+
+
+    }
+
     @Override
     public void onBackPressed() {
         // close search view on back button pressed
@@ -339,15 +408,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             auth.removeAuthStateListener(authListener);
         }
     }
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
 
 

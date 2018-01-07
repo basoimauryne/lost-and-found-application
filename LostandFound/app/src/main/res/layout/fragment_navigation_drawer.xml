@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+
+    <RelativeLayout
+        android:id="@+id/nav_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/ic_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_profile"
+            android:scaleType="fitCenter"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/postusername"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_below="@+id/ic_profile"
+            android:gravity="center"
+            android:text="logged in:"
+            android:textSize="20dp"
+            android:textStyle="bold"
+
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/Types"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_below="@id/nav_header_container"
+        android:text="Item Types"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        />
+
+
+    <Button
+        android:id="@+id/Books_documents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@id/Types"
+        android:text="Books/documents"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/books_documents"
+        android:drawablePadding="50dip"
+
+        />
+
+
+    <Button
+        android:id="@+id/accessories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@id/Books_documents"
+        android:text="Accessories"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/accessories"
+        android:drawablePadding="57dip"/>
+
+    <Button
+        android:id="@+id/electronics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="Electronics"
+        android:textAllCaps="false"
+        android:layout_below="@id/accessories"
+        android:drawableLeft="@drawable/electronics"
+        android:drawablePadding="50dip"/>
+    <Button
+        android:id="@+id/clothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@id/electronics"
+        android:text="Clothing"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/clothing"
+        android:drawablePadding="50dip"
+        />
+    <Button
+        android:id="@+id/Persons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@id/clothing"
+        android:text="Persons"
+        android:textAllCaps="false"
+        android:drawableLeft="@drawable/person"
+        android:drawablePadding="50dip"/>
+
+    <Button
+        android:id="@+id/Other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_below="@id/Persons"
+        android:text="Other"
+        android:textAllCaps="false" />
+
+
+
+
+</RelativeLayout>

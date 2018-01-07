@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="info.lostandfound.firebase.MainActivity">
+    tools:context="info.lostandfound.firebase.Activity.MainActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Settings"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/sign_out"
@@ -19,9 +19,9 @@
     <item
         android:id="@+id/action_search"
         android:orderInCategory="100"
-        android:title="Search"
+        android:title="@string/action_search"
         android:icon="@drawable/ic_search_black_24dp"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView"/>
 
 

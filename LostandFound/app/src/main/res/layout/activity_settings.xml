@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="info.lostandfound.firebase.settingsActivity">
+    tools:context="info.lostandfound.firebase.Activity.settingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="368dp"

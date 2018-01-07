@@ -1,4 +1,4 @@
-package info.lostandfound.firebase;
+package info.lostandfound.firebase.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import info.lostandfound.firebase.R;
 
 public class settingsActivity extends AppCompatActivity {
 

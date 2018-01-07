@@ -1,4 +1,4 @@
-package info.lostandfound.firebase;
+package info.lostandfound.firebase.Activity;
 
 
 import android.content.ContentResolver;
@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ImageView;
@@ -17,7 +19,12 @@ import android.net.Uri;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.widget.AdapterView;
@@ -35,6 +42,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import info.lostandfound.firebase.Model.Upload;
+import info.lostandfound.firebase.R;
+
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
@@ -44,12 +54,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     //a constant to track the file chooser intent
     private EditText ProductName, ProductDesc;
-    private Button btn_Upload,btn_Choose;
+    private Button btn_Upload, btn_Choose;
     private ImageView imageView;
-    private Uri filePath,downloadUri;
+    private Uri filePath, downloadUri;
     private StorageReference storageReference;
-    private DatabaseReference mDatabase;
-    private String item,generatedFilePath;
+    public  DatabaseReference mDatabase;
+    private String item, generatedFilePath, type;
+    private Date date;
+    DatePicker simpleDatePicker;
+    public static DateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+
+
+
+
 
 
     @Override
@@ -57,22 +74,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("ADD POST");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-
-
-
-
-
-
-
-        Spinner spinner;
+        Spinner spinner,spinner1;
         ProductName = findViewById(R.id.productname);
         ProductDesc = findViewById(R.id.productdesc);
         btn_Upload = findViewById(R.id.btn_upload);
         imageView = findViewById(R.id.imageView);
-        btn_Choose =findViewById(R.id.btn_choose);
+        btn_Choose = findViewById(R.id.btn_choose);
         spinner = findViewById(R.id.vspinner);
+        spinner1 = findViewById(R.id.tspinner);
+        DatePicker simpleDatePicker = (DatePicker) findViewById(R.id.simpleDatePicker); // initiate a date picker
+
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS);
@@ -80,25 +97,42 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
 
 
+
         btn_Upload.setOnClickListener(this);
         btn_Choose.setOnClickListener(this);
         spinner.setOnItemSelectedListener(this);
+        spinner1.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<>();
         categories.add("Lost");
         categories.add("Found");
+        categories.add("Missing");
+        categories.add("Wanted");
+
+        List<String> types = new ArrayList<>();
+        types.add("Books_documents");
+        types.add("Clothing");
+        types.add("Electronics");
+        types.add("Persons");
+        types.add("Accessories");
+        types.add("Other");
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+        spinner1.setAdapter(dataAdapter1);
 
 
     }
+
+
 
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -128,6 +162,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
+
+
     }
 
 
@@ -161,9 +197,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user != null) {
-                                Upload posts = new Upload(user.getDisplayName(), user.getEmail(), ProductName.getText().toString(), ProductDesc.getText().toString(), generatedFilePath, item);                                //adding an upload to firebase database
+
+
+                                final Calendar c = Calendar.getInstance();
+                                int year = c.get(Calendar.YEAR);
+                                int month = c.get(Calendar.MONTH) + 1;
+                                int day = c.get(Calendar.DAY_OF_MONTH);
+
+
+                                String date = day + "/" + month + "/" + year;
+
+                                Upload posts = new Upload(user.getDisplayName(), user.getEmail(), ProductName.getText().toString(), ProductDesc.getText().toString(), generatedFilePath, item, date, type);                          //adding an upload to firebase database
+
                                 String uploadId = mDatabase.push().getKey();
+
                                 mDatabase.child(uploadId).setValue(posts);
+
 
 
 
@@ -195,14 +244,16 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-
-        item = parent.getItemAtPosition(position).toString();
-
+        Spinner spinner = (Spinner) parent;
+        if(spinner.getId() == R.id.vspinner) {
+            item = parent.getItemAtPosition(position).toString();
+        } else if (spinner.getId() == R.id.tspinner)
+        {
+            type = parent.getItemAtPosition(position).toString();
+        }
 
 
 
@@ -210,16 +261,15 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
 
+
     public void onNothingSelected(AdapterView<?> arg0) {
 
     }
 
 
 
-
     @Override
     public void onClick(View view) {
-
 
 
         if (view == btn_Choose) {
@@ -232,6 +282,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
         }
     }
+
+
 
 
 }

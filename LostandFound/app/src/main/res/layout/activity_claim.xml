@@ -4,21 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="info.lostandfound.firebase.ClaimActivity">
+    tools:context="info.lostandfound.firebase.Activity.ClaimActivity">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/colorPrimary"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/Title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Contacts"
-            android:textSize="10pt">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        </TextView>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
+
+        </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/postusername"
