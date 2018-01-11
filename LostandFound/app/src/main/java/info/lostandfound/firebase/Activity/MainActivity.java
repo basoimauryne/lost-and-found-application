@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (extras == null) {
 
 
+
             } else {
                 final String method = extras.getString("filterBooks_documents");
 
@@ -208,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                             mAdapter2 = new RecyclerAdapter(getApplicationContext(), uploads);
                             recyclerView.setAdapter(mAdapter2);
                             mAdapter2.getFilter2().filter(method);
+
 
                         }
 
@@ -386,6 +388,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             searchView.setIconified(true);
             return;
         }
+        super.onBackPressed();
+    }
+
+    public void onBackPressed2() {
+        // close search view on back button pressed
+        mAdapter2 = new RecyclerAdapter(getApplicationContext(), uploads);
+        recyclerView.setAdapter(mAdapter2);
         super.onBackPressed();
     }
 

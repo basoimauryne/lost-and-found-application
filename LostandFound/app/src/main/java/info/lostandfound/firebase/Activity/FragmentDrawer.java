@@ -48,7 +48,7 @@ public class FragmentDrawer extends Fragment{
     private DrawerLayout mDrawerLayout,drawer;
     private List<Upload> uploadsFiltered;
     private TextView postusername;
-    private Button Books,Accessories,Clothing,Persons,electronics,other;
+    private Button Books,Accessories,Clothing,Persons,electronics,other,Home;
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
@@ -101,9 +101,15 @@ public class FragmentDrawer extends Fragment{
         Persons=layout.findViewById(R.id.Persons);
         electronics=layout.findViewById(R.id.electronics);
         other=layout.findViewById(R.id.Other);
+        Home=layout.findViewById(R.id.Home);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        postusername.setText(user.getDisplayName());
+        if(user !=null) {
+            postusername.setText(user.getDisplayName());
+        }
         uploads = new ArrayList<>();
+
+
 
 
 
@@ -267,6 +273,8 @@ public class FragmentDrawer extends Fragment{
             return false;
         }
 
+
+
         @Override
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
         }
@@ -282,6 +290,8 @@ public class FragmentDrawer extends Fragment{
     public interface FragmentDrawerListener {
         public void onDrawerItemSelected(View view, int position);
     }
+
+
 
 
 }
