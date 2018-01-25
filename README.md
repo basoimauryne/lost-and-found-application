@@ -1,0 +1,2 @@
+# lost-and-found-application
+This application aims at providing  a way through which people can locate their lost items or loved ones.Those who have lost items or people can post photos, and on the other hand should anyone find the posted items or people, they get in touch with the concerned through the application.  Those who find misplaced items can post them on the application so that rightful owners find them.To prove ownership, the party claiming ownership is asked to prove ownership through a series of questions
